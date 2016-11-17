@@ -12,6 +12,7 @@ public class CardUIElement : GuiPanel
 
     private Card mCardData;
 
+    public int Index;
     public Text Name;
     public Text Description;
     public Image CardImage;

@@ -50,7 +50,12 @@ public class GameManager : MonoBehaviour
         InitPlayerClass(PlayerClassType);
         InitEnemyClass(EnemyClassType);
 	}
-	
+
+    public void OnDrawCardTestButtonClicked()
+    {
+        DrawCard(PlayerType.First);
+    }
+
 	#endregion // Public Methods
 	
 	#region Private Methods
