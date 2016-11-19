@@ -11,22 +11,8 @@ public class NumberUIElement : MonoBehaviour
 
 	#endregion //Fields
 	
-	#region Unity Methods
-	
-	private void Start () 
-	{
-		Initalize();
-	}
-	
-	#endregion //Unity Methods
-	
 	#region Public Methods
 	
-	public void Initalize()
-	{
-
-	}
-
     public void SetNumberImage(int number)
     {
         if (number != 0)
@@ -46,3 +32,4 @@ public class NumberUIElement : MonoBehaviour
 	
 	#endregion //Private Methods
 }
+// Asla bir initialize olmasın.!

@@ -22,8 +22,8 @@ namespace CardGameTypes
 
     public enum PlayerType
     {
-        First, // Real player
-        Second // Ai or Enemy
+        Player, // Real player
+        Enemy // Ai or Enemy
     }
 
     public enum WeaponPowerType

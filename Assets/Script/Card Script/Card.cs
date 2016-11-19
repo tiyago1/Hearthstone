@@ -13,6 +13,7 @@ public class Card : ScriptableObject
     public int ManaCost;
     public string Description;
     public ClassType Owner;
+    public CardType CardType;
 
     #endregion // Properties
 }
