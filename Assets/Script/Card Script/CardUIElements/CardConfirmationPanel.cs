@@ -6,14 +6,14 @@ public class CardConfirmationPanel : GuiPanel
 {
 	#region Fields
 
-    private CardUIElement mCardUIElement;
+    public CardUIElement mCardUIElement;
     public event Action<int> OnCardConfimated;
 
 	#endregion //Fields
 	
 	#region Public Methods
 
-	public void Initialize(InGameUIManager inGameUIManager)
+	public override void Initialize(InGameUIManager inGameUIManager)
 	{
         base.Initialize(inGameUIManager);
         mCardUIElement = this.GetComponent<CardUIElement>();
@@ -22,12 +22,12 @@ public class CardConfirmationPanel : GuiPanel
 
     void CardConfirmationPanel_OnCardConfimated(int obj)
     {
-        //
+        //  
     }
 
-    public void SetCardData(Card data)
+    public void SetCardData(Card data, int index)
     {
-        mCardUIElement.SetCardProperties(data);
+        mCardUIElement.SetCardProperties(data, index);
     }
 
 	#endregion // Public Methods
@@ -39,6 +39,7 @@ public class CardConfirmationPanel : GuiPanel
     /// </summary>
     public void OnCardConfirmatedClicked()
     {
+
         OnCardConfimated(mCardUIElement.Index);
     }
 

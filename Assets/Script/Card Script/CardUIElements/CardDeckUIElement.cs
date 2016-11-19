@@ -20,15 +20,20 @@ public class CardDeckUIElement : GuiPanel
         mCounter = 0;
     }
 
-    public void InsantiateCard(Card data)
+    public void InsantiateCard(Card data, bool isCardBackVisible = false)
     {
         mCounter++;
+        Debug.Log(mCounter);
         GameObject card = Instantiate(CardPrefab, this.transform.position, Quaternion.identity) as GameObject;
         card.transform.SetParent(this.transform, false);    
         CardUIElement element = card.GetComponent<CardUIElement>();
         element.Initialize(mIngameUIManager);
-        element.SetCardProperties(data);
         element.Index = mCounter-1;
+        Debug.Log("isCardBackVisible  :" + isCardBackVisible);
+        element.IsCardBackVisible = isCardBackVisible;
+        Debug.Log("element.IsCardBackVisible : " + element.IsCardBackVisible);
+        element.SetCardProperties(data, element.Index);
+        element.AddCardButtonListener(element.Index);
         Cards.Add(element);
     }
 
@@ -36,6 +41,9 @@ public class CardDeckUIElement : GuiPanel
     {
         Destroy(Cards[index].gameObject);
         Cards.RemoveAt(index);
+
+        for (int i = 0; i < Cards.Count; i++)
+            Cards[i].AddCardButtonListener(i);
     }
 
 	#endregion // Public Methods

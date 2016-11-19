@@ -8,21 +8,23 @@ public class GameManager : MonoBehaviour
 {
 	#region Fields
 
-    public CardDeck CardDeck;
+    public InGameUIManager IngameUIManager;
 
+    public CardDeck CardDeck;
+    public SceneDataManager DataManager;
     public Sprite[] PlayerSprite;
 
     public GameObject Player;
     public GameObject Enemy;
 
-    public ClassType PlayerClassType = ClassType.Magic;
+    public ClassType PlayerClassType;
     public ClassType EnemyClassType;
 
     public List<Card> PlayerCards;
     public List<Card> EnemyCards;
 
     public PlayerClass PlayerManager;
-    public PlayerClass EnemyManager;
+    public AiClass EnemyManager;
 
 	#endregion //Fields
 	
@@ -35,9 +37,13 @@ public class GameManager : MonoBehaviour
 	
 	private void Update () 
 	{
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            DrawCard(PlayerType.First);
+            DrawCard(PlayerType.Player);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            DrawCard(PlayerType.Enemy);
         }
 	}
 	
@@ -47,13 +53,14 @@ public class GameManager : MonoBehaviour
 	
 	public void Initalize()
 	{
-        InitPlayerClass(PlayerClassType);
+        DataManager = GameObject.Find("SceneDataManager").GetComponent<SceneDataManager>();
+        InitPlayerClass(DataManager.SelectedPlayerClassType);
         InitEnemyClass(EnemyClassType);
 	}
 
     public void OnDrawCardTestButtonClicked()
     {
-        DrawCard(PlayerType.First);
+        DrawCard(PlayerType.Player);
     }
 
 	#endregion // Public Methods
@@ -66,40 +73,73 @@ public class GameManager : MonoBehaviour
         {
             case ClassType.Magic:
                 PlayerManager = Player.AddComponent<MagicClass>();
-                PlayerCards = CardDeck.MagicCards;           
+                PlayerCards = CardDeck.MagicCards;
+                PlayerManager.CardConfirmationPanel = IngameUIManager.PlayerCardConfirmationPanel;
+                PlayerManager.Initialize();
                 break;
-            case ClassType.Hunter:
-                PlayerManager = Player.AddComponent<HunterClass>();
-                PlayerCards = CardDeck.HunterCards;
-                break;
-            case ClassType.Warrior:
-                PlayerManager = Player.AddComponent<WarriorClass>();
-                PlayerCards = CardDeck.WarriorCards;
-                break;
+            //case ClassType.Hunter:
+            //    PlayerManager = Player.AddComponent<HunterClass>();
+            //    PlayerManager.CardConfirmationPanel = IngameUIManager.CardConfirmationPanel;
+            //    PlayerCards = CardDeck.HunterCards;
+            //    break;
+            //case ClassType.Warrior:
+            //    PlayerManager = Player.AddComponent<WarriorClass>();
+            //    PlayerManager.CardConfirmationPanel = IngameUIManager.CardConfirmationPanel;
+            //    PlayerCards = CardDeck.WarriorCards;
+            //    break;
         }
     }
 
     private void InitEnemyClass(ClassType type)
     {
-
+        switch (type)
+        {
+            case ClassType.Magic:
+                EnemyManager = Enemy.AddComponent<AiMagicClass>();
+                EnemyCards = CardDeck.MagicCards;
+                EnemyManager.CardConfirmationPanel = IngameUIManager.PlayerCardConfirmationPanel;
+                EnemyManager.Initialize();
+                break;
+            //case ClassType.Hunter:
+            //    EnemyManager = Player.AddComponent<HunterClass>();
+            //    PlayerManager.CardConfirmationPanel = IngameUIManager.CardConfirmationPanel;
+            //    EnemyCards = CardDeck.HunterCards;
+            //    break;
+            //case ClassType.Warrior:
+            //    PlayerManager = Player.AddComponent<WarriorClass>();
+            //    PlayerManager.CardConfirmationPanel = IngameUIManager.CardConfirmationPanel;
+            //    PlayerCards = CardDeck.WarriorCards;
+            //    break;
+        }
     }
 
     private void DrawCard(PlayerType type)
     {
         switch (type)
         {
-            case PlayerType.First:
+            case PlayerType.Player:
                 if (PlayerCards.Count != 0)
                 {
-                    int firstsNumber = Random.Range(0, PlayerCards.Count);
-                    Card firstsCard = PlayerCards[firstsNumber];
-                    PlayerManager.SetCard(firstsCard);
-                    PlayerCards.RemoveAt(firstsNumber);
+                    Debug.Log("Player Draw Card");
+                    int playerRandomNumber = Random.Range(0, PlayerCards.Count);
+                    Card playerCardData = PlayerCards[playerRandomNumber];
+                    PlayerManager.SetCard(playerCardData);
+                    PlayerCards.RemoveAt(playerRandomNumber);
                 }
                 else
                     Debug.Log("Empty card deck!");
                 break;
-            case PlayerType.Second:
+            case PlayerType.Enemy:
+                if (EnemyCards.Count != 0)
+                {
+                    Debug.Log("Enemy Draw Card");
+                    int enemyRandomNumber = Random.Range(0, EnemyCards.Count);
+                    Card enemyCardData = EnemyCards[enemyRandomNumber];
+                    EnemyManager.SetCard(enemyCardData);
+                    EnemyCards.RemoveAt(enemyRandomNumber);
+                }
+                else
+                    Debug.Log("Empty card deck!");
                 break;
         }
     }

@@ -20,17 +20,23 @@ public class CardUIElement : GuiPanel
     public NumberUIElement Hp;
     public NumberUIElement ManaCost;
 
+    public Animator Animator;
+    public GameObject CardBackObject;
+    public bool IsCardBackVisible;
+
 	#endregion //Fields
 	
 	#region Public Methods
 
-    public void SetCardProperties(Card data)
+    public void SetCardProperties(Card data, int index)
     {
+        Index = index;
         mCardData = data;
-        Name.text = data.Name;
-        Description.text = data.Description;
-        ManaCost.SetNumberImage(data.ManaCost);
-        Debug.Log("mana Ç: " + data.ManaCost + " damage "+ data.AttackDamage + " hp : " + data.HP);
+        Description.text = mCardData.Description;
+        ManaCost.SetNumberImage(mCardData.ManaCost);
+        Name.text = mCardData.Name;
+        Debug.Log("CardUIElement.SetCardProperties IsCardBackVisible : " + IsCardBackVisible);
+        CardBackObject.SetActive(IsCardBackVisible);
 
         if (data.HP != 0)
         {
@@ -44,9 +50,49 @@ public class CardUIElement : GuiPanel
             AttacDamage.gameObject.SetActive(false);
             Hp.gameObject.SetActive(false);
         }
-        Debug.Log(mIngameUIManager == null);
-        this.GetComponent<Button>().onClick.AddListener(()=> mIngameUIManager.CardConfirmationPanel.SetCardData(mCardData));
     }
 
+    public void SetMinionProperties(Card data, int index)
+    {
+        Index = index;
+        mCardData = data;
+        AttacDamage.gameObject.SetActive(true);
+        Hp.gameObject.SetActive(true);
+        AttacDamage.SetNumberImage(data.AttackDamage);
+        Hp.SetNumberImage(data.HP);
+
+        AddMinionButtonListener(index);
+    }
+
+    public void AddCardButtonListener(int index)
+    {
+        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerCardConfirmationPanel.SetCardData(mCardData, index));
+    }
+
+    public void AddMinionButtonListener(int index)
+    {
+        if (mIngameUIManager != null)
+        {
+            this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerBattleFieldUIManager.OnMinionSelected(index));
+        }
+    }
+
+
 	#endregion // Public Methods
+
+    #region Events
+
+    public void OnOverButton()
+    {
+        Debug.Log("Üstünde");
+        Animator.SetTrigger("Visible");
+    }
+
+    public void OnExitButton()
+    {
+        Debug.Log("Cıktı");
+        Animator.SetTrigger("InVisible");
+    }
+
+    #endregion // Events
 }
