@@ -38,8 +38,6 @@ public class BattleFieldUIManager : GuiPanel
 
     public void PutBattleField(Card data)
     {
-        mCounter++;
-        
         GameObject minion = Instantiate(MinionPrefab) as GameObject;
         minion.transform.SetParent(this.transform,false);
         CardAnimators.Add(minion.GetComponent<Animator>());
@@ -47,12 +45,12 @@ public class BattleFieldUIManager : GuiPanel
         element.Initialize(mIngameUIManager);
         element.Index = mCounter;
         element.SetMinionProperties(data, element.Index);
+        mCounter++;
     }
 
     public void OnMinionSelected(int index)
     {
-        Debug.Log("BattleFieldUIManager.OnMinionSelected index :" + index);
-        CardAnimators[index-1].SetTrigger("Grow");
+        CardAnimators[index].SetTrigger("Grow");
     }
 
 	#endregion // Public Methods

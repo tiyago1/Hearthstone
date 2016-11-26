@@ -36,7 +36,9 @@ public class CardUIElement : GuiPanel
         ManaCost.SetNumberImage(mCardData.ManaCost);
         Name.text = mCardData.Name;
         Debug.Log("CardUIElement.SetCardProperties IsCardBackVisible : " + IsCardBackVisible);
-        CardBackObject.SetActive(IsCardBackVisible);
+
+        if (CardBackObject != null)
+            CardBackObject.SetActive(IsCardBackVisible);
 
         if (data.HP != 0)
         {

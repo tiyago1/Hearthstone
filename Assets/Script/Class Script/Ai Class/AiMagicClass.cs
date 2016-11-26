@@ -18,7 +18,6 @@ public class AiMagicClass : AiClass
 
     public override void SetCard(Card card)
     {
-        Debug.Log("AiMagicClass.SetCard");
         Cards.Add(card);
         CardDeckUIElement.InsantiateCard(card,true);
     }
@@ -44,7 +43,6 @@ public class AiMagicClass : AiClass
     private void CardConfirmationPanel_OnCardConfimated(int index)
     {
         BattleFieldUIManager.PutBattleField(Cards[index]);
-        Debug.Log("MagicClass.CardConfirmationPanel_OnCardConfimated index :" + index);
         Cards.RemoveAt(index);
     }
 

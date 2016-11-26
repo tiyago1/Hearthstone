@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
 
     public InGameUIManager IngameUIManager;
 
-    public CardDeck CardDeck;
+    public CardDeck PlayerCardDeck;
+    public CardDeck EnemyCardDeck;
     public SceneDataManager DataManager;
     public Sprite[] PlayerSprite;
 
@@ -58,9 +59,14 @@ public class GameManager : MonoBehaviour
         InitEnemyClass(EnemyClassType);
 	}
 
-    public void OnDrawCardTestButtonClicked()
+    public void OnDrawPlayerCardTestButtonClicked()
     {
         DrawCard(PlayerType.Player);
+    }
+
+    public void OnDrawEnemyCardTestButtonClicked()
+    {
+        DrawCard(PlayerType.Enemy);
     }
 
 	#endregion // Public Methods
@@ -73,7 +79,7 @@ public class GameManager : MonoBehaviour
         {
             case ClassType.Magic:
                 PlayerManager = Player.AddComponent<MagicClass>();
-                PlayerCards = CardDeck.MagicCards;
+                PlayerCards = PlayerCardDeck.MagicCards;
                 PlayerManager.CardConfirmationPanel = IngameUIManager.PlayerCardConfirmationPanel;
                 PlayerManager.Initialize();
                 break;
@@ -96,8 +102,8 @@ public class GameManager : MonoBehaviour
         {
             case ClassType.Magic:
                 EnemyManager = Enemy.AddComponent<AiMagicClass>();
-                EnemyCards = CardDeck.MagicCards;
-                EnemyManager.CardConfirmationPanel = IngameUIManager.PlayerCardConfirmationPanel;
+                EnemyCards = EnemyCardDeck.MagicCards;
+                EnemyManager.CardConfirmationPanel = IngameUIManager.EnemyCardConfirmationPanel;
                 EnemyManager.Initialize();
                 break;
             //case ClassType.Hunter:
@@ -120,26 +126,24 @@ public class GameManager : MonoBehaviour
             case PlayerType.Player:
                 if (PlayerCards.Count != 0)
                 {
-                    Debug.Log("Player Draw Card");
                     int playerRandomNumber = Random.Range(0, PlayerCards.Count);
                     Card playerCardData = PlayerCards[playerRandomNumber];
                     PlayerManager.SetCard(playerCardData);
                     PlayerCards.RemoveAt(playerRandomNumber);
                 }
-                else
-                    Debug.Log("Empty card deck!");
+                //else
+                //    Debug.Log("Empty card deck!");
                 break;
             case PlayerType.Enemy:
                 if (EnemyCards.Count != 0)
                 {
-                    Debug.Log("Enemy Draw Card");
                     int enemyRandomNumber = Random.Range(0, EnemyCards.Count);
                     Card enemyCardData = EnemyCards[enemyRandomNumber];
                     EnemyManager.SetCard(enemyCardData);
                     EnemyCards.RemoveAt(enemyRandomNumber);
                 }
-                else
-                    Debug.Log("Empty card deck!");
+                //else
+                //    Debug.Log("Empty card deck!");
                 break;
         }
     }
