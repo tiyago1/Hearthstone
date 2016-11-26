@@ -35,7 +35,6 @@ public class CardUIElement : GuiPanel
         Description.text = mCardData.Description;
         ManaCost.SetNumberImage(mCardData.ManaCost);
         Name.text = mCardData.Name;
-        Debug.Log("CardUIElement.SetCardProperties IsCardBackVisible : " + IsCardBackVisible);
 
         if (CardBackObject != null)
             CardBackObject.SetActive(IsCardBackVisible);
@@ -86,13 +85,11 @@ public class CardUIElement : GuiPanel
 
     public void OnOverButton()
     {
-        Debug.Log("Üstünde");
         Animator.SetTrigger("Visible");
     }
 
     public void OnExitButton()
     {
-        Debug.Log("Cıktı");
         Animator.SetTrigger("InVisible");
     }
 
