@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class BattleFieldUIManager : GuiPanel 
 {
@@ -36,7 +37,7 @@ public class BattleFieldUIManager : GuiPanel
         mCounter = 0;
 	}
 
-    public void PutBattleField(Card data)
+    public void PutBattleField(Card data, bool isAgent = false)
     {
         GameObject minion = Instantiate(MinionPrefab) as GameObject;
         minion.transform.SetParent(this.transform,false);
@@ -46,6 +47,11 @@ public class BattleFieldUIManager : GuiPanel
         element.Index = mCounter;
         element.SetMinionProperties(data, element.Index);
         mCounter++;
+
+        if (isAgent)
+        {
+            Destroy(minion.GetComponent<Button>());
+        }
     }
 
     public void OnMinionSelected(int index)

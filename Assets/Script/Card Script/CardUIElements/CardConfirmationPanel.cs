@@ -7,7 +7,8 @@ public class CardConfirmationPanel : GuiPanel
 	#region Fields
 
     public CardUIElement mCardUIElement;
-    public event Action<int> OnCardConfimated;
+    public event Action<int> OnPlayerCardConfimated;
+    public event Action<int> OnAgentCardConfirmated;
 
 	#endregion //Fields
 	
@@ -17,13 +18,7 @@ public class CardConfirmationPanel : GuiPanel
 	{
         base.Initialize(inGameUIManager);
         mCardUIElement = this.GetComponent<CardUIElement>();
-        OnCardConfimated += CardConfirmationPanel_OnCardConfimated;
 	}
-
-    void CardConfirmationPanel_OnCardConfimated(int obj)
-    {
-        //  
-    }
 
     public void SetCardData(Card data, int index)
     {
@@ -39,8 +34,12 @@ public class CardConfirmationPanel : GuiPanel
     /// </summary>
     public void OnCardConfirmatedClicked()
     {
+        OnPlayerCardConfimated(mCardUIElement.Index);
+    }
 
-        OnCardConfimated(mCardUIElement.Index);
+    public void OnAgentCardConfirim()
+    {
+        OnAgentCardConfirmated(mCardUIElement.Index);
     }
 
     #endregion // Events

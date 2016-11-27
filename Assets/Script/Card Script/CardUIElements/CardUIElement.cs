@@ -10,7 +10,7 @@ public class CardUIElement : GuiPanel
 {
 	#region Fields
 
-    private Card mCardData;
+    public Card CardData;
 
     public int Index;
     public Text Name;
@@ -31,10 +31,10 @@ public class CardUIElement : GuiPanel
     public void SetCardProperties(Card data, int index)
     {
         Index = index;
-        mCardData = data;
-        Description.text = mCardData.Description;
-        ManaCost.SetNumberImage(mCardData.ManaCost);
-        Name.text = mCardData.Name;
+        CardData = data;
+        Description.text = CardData.Description;
+        ManaCost.SetNumberImage(CardData.ManaCost);
+        Name.text = CardData.Name;
 
         if (CardBackObject != null)
             CardBackObject.SetActive(IsCardBackVisible);
@@ -56,7 +56,7 @@ public class CardUIElement : GuiPanel
     public void SetMinionProperties(Card data, int index)
     {
         Index = index;
-        mCardData = data;
+        CardData = data;
         AttacDamage.gameObject.SetActive(true);
         Hp.gameObject.SetActive(true);
         AttacDamage.SetNumberImage(data.AttackDamage);
@@ -67,7 +67,7 @@ public class CardUIElement : GuiPanel
 
     public void AddCardButtonListener(int index)
     {
-        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerCardConfirmationPanel.SetCardData(mCardData, index));
+        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerCardConfirmationPanel.SetCardData(CardData, index));
     }
 
     public void AddMinionButtonListener(int index)
@@ -77,7 +77,6 @@ public class CardUIElement : GuiPanel
             this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerBattleFieldUIManager.OnMinionSelected(index));
         }
     }
-
 
 	#endregion // Public Methods
 

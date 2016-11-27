@@ -36,19 +36,13 @@ public class InGameUIManager : GuiPanel
         EnemyElementsInit();
 	}
 
-    void CardConfirmationPanel_OnCardConfimated(int index)
-    {
-        Debug.Log("Confirmated Play");
-        PlayerCardDeck.RemoveAtCardDeck(index);
-    }
-
     private void PlayerElementsInit()
     {
         PlayerCardDeck.Initialize(this);
         PlayerCardConfirmationPanel.Initialize(this);
         PlayerCardConfirmationPanelUI.Initialize(this);
         PlayerBattleFieldUIManager.Initialize(this);
-        PlayerCardConfirmationPanel.OnCardConfimated += CardConfirmationPanel_OnCardConfimated;
+        PlayerCardConfirmationPanel.OnPlayerCardConfimated += CardConfirmationPanel_OnCardConfimated;
     }
 
     private void EnemyElementsInit()
@@ -57,8 +51,23 @@ public class InGameUIManager : GuiPanel
         EnemyCardConfirmationPanel.Initialize(this);
         EnemyCardConfirmationPanelUI.Initialize(this);
         EnemyBattleFieldUIManager.Initialize(this);
-        EnemyCardConfirmationPanel.OnCardConfimated += CardConfirmationPanel_OnCardConfimated;
+        EnemyCardConfirmationPanel.OnAgentCardConfirmated += EnemyCardConfirmationPanel_OnAgentCardConfirmated;
     }
 
 	#endregion // Public Methods
+
+    #region Events
+
+    private void CardConfirmationPanel_OnCardConfimated(int index)
+    {
+        PlayerCardDeck.RemoveAtCardDeck(index);
+    }
+
+    private void EnemyCardConfirmationPanel_OnAgentCardConfirmated(int index)
+    {
+        Debug.Log("Agent Card ConfirmationPanel");
+        EnemyCardDeck.RemoveAtCardDeck(index);
+    }
+
+    #endregion // Events
 }
