@@ -6,7 +6,9 @@ public class BattleFieldCardController : MonoBehaviour
 {
 	#region Fields
 
-    public event Action SelectedMinion;
+    public event Action<Card> SelectedMinion;
+    private CardUIElement mCardUIElement;
+    private Card mCardData;
 
 	#endregion //Fields
 	
@@ -28,13 +30,8 @@ public class BattleFieldCardController : MonoBehaviour
 	
 	public void Initalize()
 	{
-        SelectedMinion += BattleFieldCardController_SelectedMinion;
-	}
 
-    private void BattleFieldCardController_SelectedMinion()
-    {
-        
-    }
+	}
 
     //public void OnAnimationClicked()
     //{

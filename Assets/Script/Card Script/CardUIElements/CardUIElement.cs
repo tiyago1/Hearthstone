@@ -53,29 +53,14 @@ public class CardUIElement : GuiPanel
         }
     }
 
-    public void SetMinionProperties(Card data, int index)
-    {
-        Index = index;
-        CardData = data;
-        AttacDamage.gameObject.SetActive(true);
-        Hp.gameObject.SetActive(true);
-        AttacDamage.SetNumberImage(data.AttackDamage);
-        Hp.SetNumberImage(data.HP);
-
-        AddMinionButtonListener(index);
-    }
-
     public void AddCardButtonListener(int index)
     {
         this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerCardConfirmationPanel.SetCardData(CardData, index));
     }
 
-    public void AddMinionButtonListener(int index)
+    public void AddAgentCardButtonListener(int index)
     {
-        if (mIngameUIManager != null)
-        {
-            this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerBattleFieldUIManager.OnMinionSelected(index));
-        }
+        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.EnemyCardConfirmationPanel.SetCardData(CardData, index)); // TO_DO : Nothing test. You must testing this.
     }
 
 	#endregion // Public Methods

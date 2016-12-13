@@ -15,10 +15,12 @@ public class NumberUIElement : MonoBehaviour
 	
     public void SetNumberImage(int number)
     {
+        Image.enabled = true;
+
         if (number != 0)
             Image.sprite = Numbers[number - 1];
         else
-            Image.sprite = Numbers[number];
+            Image.enabled = false;
     }
 
 	#endregion // Public Methods

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using CardGameTypes;
 
 public class MagicClass : PlayerClass
 {
@@ -43,8 +44,26 @@ public class MagicClass : PlayerClass
 
     private void CardConfirmationPanel_OnCardConfimated(int index)
     {
-        BattleFieldUIManager.PutBattleField(Cards[index]);
+        Card cardData = Cards[index];
+        BattleFieldCardTypeCheck(cardData, index);
         Cards.RemoveAt(index);
+    }
+
+    private void BattleFieldCardTypeCheck(Card data, int index)
+    {
+        switch (data.CardType)
+        {
+            case CardType.Weapon:
+                break;
+            case CardType.Minion:
+                BattleFieldUIManager.PutBattleField(Cards[index]);
+                break;
+            case CardType.Special:
+                break;
+            case CardType.Neutral:
+                BattleFieldUIManager.PutBattleField(Cards[index]);
+                break;
+        }
     }
 
     #endregion // Events

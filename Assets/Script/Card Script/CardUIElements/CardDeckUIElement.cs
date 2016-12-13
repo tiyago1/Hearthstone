@@ -20,18 +20,20 @@ public class CardDeckUIElement : GuiPanel
         mCounter = 0;
     }
 
-    public void InsantiateCard(Card data, bool isCardBackVisible = false)
+    public void InsantiateCard(Card data, bool isPlayerAgent = false)
     {
         GameObject card = Instantiate(CardPrefab, this.transform.position, Quaternion.identity) as GameObject;
         card.transform.SetParent(this.transform, false);    
         CardUIElement element = card.GetComponent<CardUIElement>();
         element.Initialize(mIngameUIManager);
         element.Index = mCounter;
-        element.IsCardBackVisible = isCardBackVisible;
+        element.IsCardBackVisible = isPlayerAgent;
         element.SetCardProperties(data, element.Index);
 
-        if (!isCardBackVisible)
+        if (!isPlayerAgent)
             element.AddCardButtonListener(element.Index);
+        else
+            element.AddAgentCardButtonListener(element.Index);
 
         Cards.Add(element);
         mCounter++;

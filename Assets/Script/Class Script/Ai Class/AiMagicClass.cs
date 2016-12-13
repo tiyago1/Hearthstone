@@ -12,9 +12,12 @@ public class AiMagicClass : AiClass
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            SelectCard();
+            if (CardDeckUIElement.Cards.Count != 0)
+            {
+                SelectCard();
+            }
         }
     }
 
@@ -28,8 +31,6 @@ public class AiMagicClass : AiClass
         BattleFieldUIManager = this.transform.GetChild(2).GetComponent<BattleFieldUIManager>();
         CardConfirmationPanel.OnAgentCardConfirmated += CardConfirmationPanel_OnAgentCardConfirmated;
     }
-
-  
 
     public override void SetCard(Card card)
     {
@@ -47,9 +48,29 @@ public class AiMagicClass : AiClass
     {
         int selectedCardIndex = SelectedCardIndex();
         Debug.Log("Agent selectedCardIndex : " + selectedCardIndex);
+
         CardUIElement selectedCard = CardDeckUIElement.Cards[selectedCardIndex];
-        CardConfirmationPanel.SetCardData(selectedCard.CardData, selectedCard.Index);
-        CardConfirmationPanel.OnAgentCardConfirim();
+        Card cardData = selectedCard.CardData;
+
+        switch (cardData.CardType)
+        {
+            case CardGameTypes.CardType.Weapon: Debug.Log("Weapon");
+                SelectCard();
+                break;
+            case CardGameTypes.CardType.Minion: Debug.Log("minion");
+                 CardConfirmationPanel.SetCardData(cardData, selectedCard.Index);
+                 CardConfirmationPanel.OnAgentCardConfirmatedClicked();
+                break;
+            case CardGameTypes.CardType.Special: Debug.Log("Special");
+                SelectCard();
+                break;
+            case CardGameTypes.CardType.Neutral: Debug.Log("Neutral");
+                 CardConfirmationPanel.SetCardData(cardData, selectedCard.Index);
+                 CardConfirmationPanel.OnAgentCardConfirmatedClicked();
+                break;
+        }
+
+       
     }
 
     #endregion // Public Method
