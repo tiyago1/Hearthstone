@@ -6,12 +6,13 @@ using System.Linq;
 using CardGameTypes;
 using UnityEngine.UI;
 
-public class CardUIElement : GuiPanel
+public class CardUIElement : HearthBehaviour
 {
 	#region Fields
 
-    private Card mCardData;
+    public Card CardData;
 
+    public int Index;
     public Text Name;
     public Text Description;
     public Image CardImage;
@@ -19,17 +20,24 @@ public class CardUIElement : GuiPanel
     public NumberUIElement Hp;
     public NumberUIElement ManaCost;
 
+    public Animator Animator;
+    public GameObject CardBackObject;
+    public bool IsCardBackVisible;
+
 	#endregion //Fields
 	
 	#region Public Methods
 
-    public void SetCardProperties(Card data)
+    public void SetCardProperties(Card data, int index)
     {
-        mCardData = data;
-        Name.text = data.Name;
-        Description.text = data.Description;
-        ManaCost.SetNumberImage(data.ManaCost);
-        Debug.Log("mana Ç: " + data.ManaCost + " damage "+ data.AttackDamage + " hp : " + data.HP);
+        Index = index;
+        CardData = data;
+        Description.text = CardData.Description;
+        ManaCost.SetNumberImage(CardData.ManaCost);
+        Name.text = CardData.Name;
+
+        if (CardBackObject != null)
+            CardBackObject.SetActive(IsCardBackVisible);
 
         if (data.HP != 0)
         {
@@ -43,9 +51,31 @@ public class CardUIElement : GuiPanel
             AttacDamage.gameObject.SetActive(false);
             Hp.gameObject.SetActive(false);
         }
-        Debug.Log(mIngameUIManager == null);
-        this.GetComponent<Button>().onClick.AddListener(()=> mIngameUIManager.CardConfirmationPanel.SetCardData(mCardData));
+    }
+
+    public void AddCardButtonListener(int index)
+    {
+        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.PlayerCardConfirmationPanel.SetCardData(CardData, index));
+    }
+
+    public void AddAgentCardButtonListener(int index)
+    {
+        this.GetComponent<Button>().onClick.AddListener(() => mIngameUIManager.EnemyCardConfirmationPanel.SetCardData(CardData, index)); // TO_DO : Nothing test. You must testing this.
     }
 
 	#endregion // Public Methods
+
+    #region Events
+
+    public void OnOverButton()
+    {
+        Animator.SetTrigger("Visible");
+    }
+
+    public void OnExitButton()
+    {
+        Animator.SetTrigger("InVisible");
+    }
+
+    #endregion // Events
 }

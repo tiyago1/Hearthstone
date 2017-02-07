@@ -11,28 +11,16 @@ public class NumberUIElement : MonoBehaviour
 
 	#endregion //Fields
 	
-	#region Unity Methods
-	
-	private void Start () 
-	{
-		Initalize();
-	}
-	
-	#endregion //Unity Methods
-	
 	#region Public Methods
 	
-	public void Initalize()
-	{
-
-	}
-
     public void SetNumberImage(int number)
     {
+        Image.enabled = true;
+
         if (number != 0)
             Image.sprite = Numbers[number - 1];
         else
-            Image.sprite = Numbers[number];
+            Image.enabled = false;
     }
 
 	#endregion // Public Methods
@@ -46,3 +34,4 @@ public class NumberUIElement : MonoBehaviour
 	
 	#endregion //Private Methods
 }
+// Asla bir initialize olmasın.!
